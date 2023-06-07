@@ -2520,6 +2520,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Train_Stat
       objectReference: {fileID: 0}
+    - target: {fileID: 4577576761906458970, guid: 1439c1fde8ee239469f46a3ec542faa0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1439c1fde8ee239469f46a3ec542faa0, type: 3}
 --- !u!1 &624226691
@@ -3126,9 +3130,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 872ef0356be89f244b399c1172f08e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTest: 1
+  isTest: 0
+  isAITest: 0
   _loadingSceneUI: {fileID: 2059012224}
   _distanceUI: {fileID: 1014105166}
+  _aiDebugUI: {fileID: 1197873636}
   _worldManager: {fileID: 742170147}
   _shopManager: {fileID: 128752633}
   _boidsManager: {fileID: 1067327105}
@@ -3283,6 +3289,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pause UI
       objectReference: {fileID: 0}
+    - target: {fileID: 2777706223984096355, guid: ce663060779a3794d864c2015715d1b5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2777706223984096359, guid: ce663060779a3794d864c2015715d1b5, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3365,6 +3375,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2777706223984096359, guid: ce663060779a3794d864c2015715d1b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777706224129331584, guid: ce663060779a3794d864c2015715d1b5, type: 3}
+      propertyPath: isGlobal
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2777706224129331586, guid: ce663060779a3794d864c2015715d1b5, type: 3}
@@ -4960,7 +4974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 392772926, guid: eaad4c1378e59d44d9f78c0b2418912a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2000
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 413657214, guid: eaad4c1378e59d44d9f78c0b2418912a, type: 3}
       propertyPath: m_IsActive
@@ -4968,7 +4982,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413657215, guid: eaad4c1378e59d44d9f78c0b2418912a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2000
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1979731681, guid: eaad4c1378e59d44d9f78c0b2418912a, type: 3}
       propertyPath: pathFindingTestParent
@@ -5021,6 +5035,10 @@ PrefabInstance:
     - target: {fileID: 112193113625666802, guid: eaad4c1378e59d44d9f78c0b2418912a, type: 3}
       propertyPath: m_Name
       value: AIManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 112193113625666802, guid: eaad4c1378e59d44d9f78c0b2418912a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaad4c1378e59d44d9f78c0b2418912a, type: 3}
@@ -5606,6 +5624,11 @@ PrefabInstance:
       objectReference: {fileID: 455940595194180523, guid: 4d471d9b24fc9134396a3d3e302341a5, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b40e214a666047448503f01c6b60b59, type: 3}
+--- !u!1 &1197873636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3629763408069323896, guid: 9b40e214a666047448503f01c6b60b59, type: 3}
+  m_PrefabInstance: {fileID: 1197873635}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1202274870
 GameObject:
   m_ObjectHideFlags: 0
@@ -7752,7 +7775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4931991f766b914a859726cff999e0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _child: []
 --- !u!1 &1626757849
 GameObject:
   m_ObjectHideFlags: 0

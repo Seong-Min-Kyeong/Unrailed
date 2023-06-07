@@ -14,6 +14,7 @@ public class HelperBT : BaseAI
         public static readonly BlackBoardKey ResourceType = new BlackBoardKey() { Name = "ResourceType" };
         public static readonly BlackBoardKey Arrive = new BlackBoardKey() { Name = "Arrive" };
         public static readonly BlackBoardKey Home = new BlackBoardKey() { Name = "Home" };
+        public static readonly BlackBoardKey Item = new BlackBoardKey() { Name = "Item" };
 
         public string Name;
 
@@ -21,8 +22,6 @@ public class HelperBT : BaseAI
 
     private Blackboard<BlackBoardKey> _localMemory;
 
-    //기차 위치로 나중에 바꾸기
-    private float _rotateSpeed = 10;
 
     private Helper _helper;
     //도구
@@ -107,10 +106,9 @@ public class HelperBT : BaseAI
                              //플레이어가 들고 있는지 확인하기
                              if (interaction.CanPerform())
                              {
-                                 _item = item;
-                                 _item.PickUp();
-                                 _emoteImage.sprite = _emoteManager.GetEmote(_item.ID);
-                                 _agent.MoveTo(_item.InteractionPoint);
+                                 _localMemory.SetGeneric<AI_Item>(BlackBoardKey.Item, item);
+                                 _emoteImage.sprite = _emoteManager.GetEmote(item.ID);
+                                 _agent.MoveTo(item.InteractionPoint);
                                  _animator.SetBool(isMove, true);
                              }
                              else
@@ -138,8 +136,23 @@ public class HelperBT : BaseAI
 
         var PickUpTool = FindTools.Add<BTNode_Action>("도구 들기", () =>
          {
+             //도착
+             var item = _localMemory.GetGeneric<AI_Item>(BlackBoardKey.Item);
+             _item = item;
+
              if (_item != null)
              {
+                 foreach (var interaction in item.Interactions)
+                 {
+                     //플레이어가 들고 있는지 확인하기
+                     if (interaction.CanPerform())
+                     {
+                         item.PickUp();
+                         _emoteImage.sprite = _emoteManager.GetEmote(item.ID);
+                         break;
+                     }
+                 }
+
                  switch (_item.Type)
                  {
                      //양동이면 양손
@@ -420,7 +433,7 @@ public class HelperBT : BaseAI
 
                      Home.GetGatherTarget(_helper);
                      //자원이 더 이상 없다면 
-                     if (Home.NonethisResourceType||_stack._handItem.Peek().HelperCheckItemType)
+                     if (Home.NonethisResourceTypeHelper||_stack._handItem.Peek().HelperCheckItemType)
                      {
                          return BehaviorTree.ENodeStatus.Succeeded;
                      }
@@ -465,7 +478,7 @@ public class HelperBT : BaseAI
         {
             Home.GetGatherTarget(_helper);
             //더 이상 채집할 자원이 없는경우
-            if (Home.NonethisResourceType)
+            if (Home.NonethisResourceTypeHelper)
             {
                 _emoteImage.sprite = _emoteManager.GetEmote(_emoteManager.WarningEmote);
                 _animator.SetBool(isMove, false);

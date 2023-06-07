@@ -64,6 +64,7 @@ public class AI_Stack : MonoBehaviour
             _detectedItem = p.second;
 
             _detectedItem.Clear();
+            _handItem.Clear();
         }
 
     }

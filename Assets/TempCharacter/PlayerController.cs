@@ -161,6 +161,11 @@ public class PlayerController : MonoBehaviour
             ItemIOSound(0);
 
             InteractionHighlight();
+
+            if (_handItem.Peek().ItemType == EItemType.wood || _handItem.Peek().ItemType == EItemType.steel)
+            {
+                ResourceTracker.Instance.DeRegisterResource(_handItem.Peek().GetComponent<WorldResource>());
+            }
         }
 
         else if (_handItem.Count != 0 && _detectedItem.Count == 0) // 버리기
@@ -182,6 +187,8 @@ public class PlayerController : MonoBehaviour
             _detectedItem = p.second;
 
             InteractionHighlight();
+
+
         }
     }
 
@@ -196,8 +203,13 @@ public class PlayerController : MonoBehaviour
             Pair<Stack<MyItem>, Stack<MyItem>> p = _handItem.Peek().AutoGain(_handItem, _detectedItem);
             _handItem = p.first;
             _detectedItem = p.second;
+            if (_handItem.Peek().ItemType == EItemType.wood || _handItem.Peek().ItemType == EItemType.steel)
+            {
+                ResourceTracker.Instance.DeRegisterResource(_handItem.Peek().GetComponent<WorldResource>());
+            }
 
         }
+
     }
 
     // 상점 기차아이템과 상호작용하는 메소드
@@ -468,9 +480,17 @@ public class PlayerController : MonoBehaviour
         MyItem[] detectedItem = _detectedItem.ToArray();
 
         for (int i = 0; i < handItem.Length; i++)
-            handItem[i].GetComponent<ItemInteractionTest>().Interaction(false);
+        {
+            ItemInteractionTest item = handItem[i].GetComponent<ItemInteractionTest>();
+            if(item != null)
+                item.Interaction(false);
+        }
         for (int i = 0; i < detectedItem.Length; i++)
-            detectedItem[i].GetComponent<ItemInteractionTest>().Interaction(true);
+        {
+            ItemInteractionTest item = detectedItem[i].GetComponent<ItemInteractionTest>();
+            if (item != null)
+                item.Interaction(true);
+        }
     }
 
     private void DetectGroundBlock()
@@ -490,7 +510,9 @@ public class PlayerController : MonoBehaviour
                     if(item != null)
                     {
                         Debug.Log("이거 해?");
-                        _currentblock.GetChild(i).GetComponent<ItemInteractionTest>().Interaction(false);
+                        ItemInteractionTest interactionItem = _currentblock.GetChild(i).GetComponent<ItemInteractionTest>();
+                        if (interactionItem != null)
+                            interactionItem.Interaction(false);
                     }
                 }
             }
@@ -508,7 +530,9 @@ public class PlayerController : MonoBehaviour
                     if (_currentFrontObject == null)
                     {
                         // 새로운 하이라이트 넣어주기
-                        item.GetComponent<ItemInteractionTest>().Interaction(true);
+                        ItemInteractionTest interactionItem = item.GetComponent<ItemInteractionTest>();
+                        if (interactionItem != null)
+                            interactionItem.Interaction(true);
                     }
 
                     _detectedItem.Push(item);
@@ -783,7 +807,7 @@ public class PlayerController : MonoBehaviour
         {
             if (CurrentHandItem.ItemType == EItemType.bucket && _currentFrontObject.gameObject.layer == LayerMask.NameToLayer("WaterBox"))
             {
-                if (_waterGauge.IsFillWater())
+                if (_waterGauge.IsFillWater() || CurrentHandItem.GetComponent<Item_Bucket>().Full)
                 {
                     TrainWater water = _currentFrontObject.GetComponent<TrainWater>();
 

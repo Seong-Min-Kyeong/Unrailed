@@ -5,7 +5,8 @@ using System.Linq;
 
 public class Resource : MonoBehaviour
 {
-    public bool NonethisResourceType { get; private set; } = false;
+    public bool NonethisResourceTypeHelper { get; private set; } = false;
+    public bool NonethisResourceTypeEnemy { get; private set; } = false;
 
     private WorldResource.EType _defaultResource = WorldResource.EType.Wood;
     private Dictionary<WorldResource.EType, List<WorldResource>> _trackedResources = null;
@@ -56,11 +57,11 @@ public class Resource : MonoBehaviour
         //자원이 있는지 확인
         if (_trackedResources[targetResource].Count <1)
         {
-            NonethisResourceType = true;
+            NonethisResourceTypeHelper = true;
             Debug.Log($"{targetResource} :  자원이 이제 없어요");
         }
         else
-            NonethisResourceType = false;
+            NonethisResourceTypeHelper = false;
 
         var sortedResources = _trackedResources[targetResource]
             //갈 수 있는 곳에 있는 자원만 추리기
@@ -83,11 +84,11 @@ public class Resource : MonoBehaviour
         //자원이 있는지 확인
         if (_trackedResources[targetResource].Count < 1)
         {
-            NonethisResourceType = true;
+            NonethisResourceTypeEnemy = true;
             Debug.Log($"{targetResource} :  훔칠 자원이 이제 없어요");
         }
         else
-            NonethisResourceType = false;
+            NonethisResourceTypeEnemy = false;
 
         var sortedResources = _trackedResources[targetResource]
             //갈 수 있는 곳에 있는 자원만 추리기

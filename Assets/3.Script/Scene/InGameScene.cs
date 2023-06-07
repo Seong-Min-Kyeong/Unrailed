@@ -8,10 +8,12 @@ public class InGameScene : MonoBehaviour
 {
     [Header("테스트")]
     [SerializeField] private bool isTest = false;
+    [SerializeField] private bool isAITest = false;
 
     [Header("UI")]
     public GameObject _loadingSceneUI;
     public GameObject _distanceUI;
+    public GameObject _aiDebugUI;
 
     [Header("Manager")]
     [SerializeField] private WorldManager _worldManager;
@@ -41,6 +43,11 @@ public class InGameScene : MonoBehaviour
         _loadingSceneUI.SetActive(true);
         isStart = false;
 
+        if (isAITest)
+            _aiDebugUI.SetActive(true);
+        else
+            _aiDebugUI.SetActive(false);
+
         // 로딩 시작
         LoadingFirstGame(isTest, 
             () =>
@@ -52,9 +59,9 @@ public class InGameScene : MonoBehaviour
                         Instantiate(_robot, Vector3.up * 0.5f, Quaternion.identity).SetHome(FindObjectOfType<Resource>());
                         Instantiate(_enemy, Vector3.up * 0.5f + Vector3.right, Quaternion.identity).SetHome(FindObjectOfType<Resource>());
 
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < 4; i++)
                         {
-                            Vector3 pos = Vector3.up * 0.5f + Random.insideUnitSphere * 7;
+                            Vector3 pos = Vector3.up * 0.5f + Random.insideUnitSphere * 4;
                             Flock flock = Instantiate(_flock);
                             flock.transform.position = new Vector3(pos.x, 0.5f, pos.z);
                         }

@@ -13601,7 +13601,7 @@ MonoBehaviour:
   isReady: 0
   isTrainOver: 0
   isOver: 0
-  trainSpeed: 0
+  trainSpeed: 0.03
   _trainRotateSpeed: 0
   goalSpeed: 3
   overSpeed: 0
@@ -42691,7 +42691,7 @@ MonoBehaviour:
   isReady: 0
   isTrainOver: 0
   isOver: 0
-  trainSpeed: 0
+  trainSpeed: 0.03
   _trainRotateSpeed: 0
   goalSpeed: 3
   overSpeed: 0
@@ -43103,7 +43103,7 @@ MonoBehaviour:
   isReady: 0
   isTrainOver: 0
   isOver: 0
-  trainSpeed: 0
+  trainSpeed: 0.03
   _trainRotateSpeed: 0
   goalSpeed: 3
   overSpeed: 0
@@ -72205,7 +72205,7 @@ MonoBehaviour:
   isReady: 0
   isTrainOver: 0
   isOver: 0
-  trainSpeed: 0
+  trainSpeed: 0.03
   _trainRotateSpeed: 0
   goalSpeed: 3
   overSpeed: 0
@@ -73076,7 +73076,7 @@ MonoBehaviour:
   isReady: 0
   isTrainOver: 0
   isOver: 0
-  trainSpeed: 0
+  trainSpeed: 0.03
   _trainRotateSpeed: 0
   goalSpeed: 3
   overSpeed: 0

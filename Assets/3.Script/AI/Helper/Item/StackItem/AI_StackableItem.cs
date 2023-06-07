@@ -11,6 +11,7 @@ public class AI_StackableItem : AI_StackItem
         // 종류가 같다면 줍는다.
         if (handItem.Peek().CheckItemType(detectedItem.Peek()))
         {
+            HelperCheckItemType = false;
             while (handItem.Count < 3)
             {
                 if (detectedItem.Count == 0)
@@ -147,6 +148,7 @@ public class AI_StackableItem : AI_StackItem
         // 종류가 같다면 줍는다.
         if (handItem.Peek().CheckItemType(detectedItem.Peek()))
         {
+            EnemyCheckItemType = false;
             while (handItem.Count < 3)
             {
                 if (detectedItem.Count == 0)

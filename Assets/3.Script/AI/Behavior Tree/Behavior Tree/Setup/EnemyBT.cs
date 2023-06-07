@@ -16,6 +16,7 @@ public class EnemyBT : BaseAI
     private AnimalHealth _health;
     protected readonly int isRoot = Animator.StringToHash("isRoot");
 
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -36,35 +37,36 @@ public class EnemyBT : BaseAI
 
         BTRoot.AddService<BTServiceBase>("훔칠 거 찾는 Service", (float deltaTime) =>
         {
-            if (!Home.NonethisResourceType)
-            {
-                _target = Home.TargettoSteal(_agent);
-                var target = Home.TargettoSteal(_agent);
-                _localMemory.SetGeneric<WorldResource>(BlackBoardKey.CurrentTarget, target);
-
-            }
-            else
-                _target = null;
-                return;
+            Home.TargettoSteal(_agent);
         });
 
-        var HaveTarget = BTRoot.Add<BTNode_Selector>("훔칠 거 있나요?");
-        var CheckTarget = HaveTarget.AddDecorator<BTDecoratorBase>("훔칠 거 있는지 거르는 DECO", () =>
+        var HaveTarget = BTRoot.Add<BTNode_Sequence>("훔칠 거 있나요?");
+        HaveTarget.AddDecorator<BTDecoratorBase>("훔칠 거 있는지 거르는 DECO", () =>
         {
             //타겟이 있으면 true 없으면 false
             var hp = _localMemory.GetGeneric<int>(BlackBoardKey.HP);
-            return _target != null && hp == _health.CurrentHp;
+            return hp == _health.CurrentHp && !Home.NonethisResourceTypeEnemy;
         });
 
-        var StartRoot = HaveTarget.Add<BTNode_Sequence>("1. 있는 경우");
+        var MainSequence = HaveTarget.Add<BTNode_Sequence>("있는 경우");
 
-        var MainSeq = StartRoot.Add<BTNode_Sequence>("1");
-        MainSeq.Add<BTNode_Action>("이동하기",
+        MainSequence.Add<BTNode_Action>("타겟 정하기", () =>
+         {
+            _target = Home.TargettoSteal(_agent);
+             return BehaviorTree.ENodeStatus.InProgress;
+        }
+         , () =>
+         {
+             return _target == null ? BehaviorTree.ENodeStatus.InProgress : BehaviorTree.ENodeStatus.Succeeded;
+
+         });
+
+
+        MainSequence.Add<BTNode_Action>("이동하기",
         () =>
         {
             Vector3 position = _agent.FindCloestAroundEndPosition(_target.transform.position);
-            _agent.MoveTo(_target.transform.position);
-
+            _agent.MoveTo(position);
             return BehaviorTree.ENodeStatus.InProgress;
 
         },
@@ -73,21 +75,14 @@ public class EnemyBT : BaseAI
                 return _agent.AtDestination ? BehaviorTree.ENodeStatus.Succeeded : BehaviorTree.ENodeStatus.InProgress;
             });
 
-        var stealRoot = MainSeq.Add<BTNode_Sequence>("2");
-        var stealDeco = stealRoot.AddDecorator<BTDecoratorBase>("훔칠 타겟이 아직 존재하는지 확인하는 Decorator", () =>
-        {
-            return _target != null;
-
-        });
-
-        stealRoot.Add<BTNode_Action>("타겟 존재 : 훔치기 실행",
+        MainSequence.Add<BTNode_Action>("훔치기",
         () =>
         {
             if(_target!=null)
             {
+                _stack.EnemyDetectGroundBlock(_target);
                 _animator.SetBool(isMove, false);
                 _animator.SetBool(isRoot, true);
-                _stack.EnemyDetectGroundBlock(_target);
                 //처음 드는 거 
                 if (_stack._handItem.Count == 0)
                 {
@@ -96,24 +91,30 @@ public class EnemyBT : BaseAI
                 //그 후 쌓기
                 else
                 {
-                    _stack.EnemyInteractiveAuto();
+                    if (!_stack._handItem.Peek().EnemyCheckItemType)
+                    {
+                        _stack.EnemyInteractiveAuto();
+
+                    }
                 }
                 return BehaviorTree.ENodeStatus.InProgress;
 
             }
             return BehaviorTree.ENodeStatus.Failed;
 
-
-
         },
          () =>
          {
-             return _target != null ? BehaviorTree.ENodeStatus.Succeeded : BehaviorTree.ENodeStatus.Failed;
+             if (_target != null)
+             {
+                 return BehaviorTree.ENodeStatus.Succeeded;
+
+             }
+             else
+                 return BehaviorTree.ENodeStatus.InProgress;
          });
 
-
-        var StackResource = MainSeq.Add<BTNode_Sequence>("3");
-        StackResource.Add<BTNode_Action>("쌓기",
+        MainSequence.Add<BTNode_Action>("쌓기",
             ()=>
             {
                 return BehaviorTree.ENodeStatus.InProgress;
@@ -122,7 +123,7 @@ public class EnemyBT : BaseAI
             {
                 Home.TargettoSteal(_agent);
                 //자원이 더 이상 없다면 
-                if (Home.NonethisResourceType || _stack._handItem.Peek().EnemyCheckItemType)
+                if (Home.NonethisResourceTypeEnemy || _stack._handItem.Peek().EnemyCheckItemType)
                 {
                     return BehaviorTree.ENodeStatus.Succeeded;
                 }
@@ -134,12 +135,10 @@ public class EnemyBT : BaseAI
 
             });
 
-
-        var RunRoot = MainSeq.Add<BTNode_Sequence>("4");
-        RunRoot.Add<BTNode_Action>("도망",
+        MainSequence.Add<BTNode_Action>("도망",
         () =>
         {
-            Vector3 position = _agent.MoveToClosestEndPosition();
+            _agent.MoveToClosestEndPosition();
             _animator.SetBool(isMove, true);
             return BehaviorTree.ENodeStatus.InProgress;
 
@@ -147,26 +146,24 @@ public class EnemyBT : BaseAI
         () =>
         {
             return _agent.AtDestination ?
-            BehaviorTree.ENodeStatus.Failed : BehaviorTree.ENodeStatus.InProgress;
+            BehaviorTree.ENodeStatus.Succeeded : BehaviorTree.ENodeStatus.InProgress;
         });
 
 
         //내려놓기
 
-        var DiscardRoot = RunRoot.Add<BTNode_Sequence>("5");
-        DiscardRoot.Add<BTNode_Action>("버리기",
+        MainSequence.Add<BTNode_Action>("버리기",
             () =>
             {
                 SoundManager.Instance.PlaySoundEffect("Enemy_Laugh");
                 _animator.SetBool(isRoot, false);
-                _stack.EnemyThrowResource();
                 _target = null;
-                _animator.SetBool(isMove, true);
+                _stack.EnemyThrowResource();
                 return BehaviorTree.ENodeStatus.InProgress;
             },
             () =>
             {
-                return BehaviorTree.ENodeStatus.Succeeded;
+                return _stack._handItem.Count ==0 ? BehaviorTree.ENodeStatus.Succeeded : BehaviorTree.ENodeStatus.InProgress;
             }
             );
 
@@ -174,7 +171,8 @@ public class EnemyBT : BaseAI
         var Attacked = BTRoot.Add<BTNode_Sequence>("맞음");
         Attacked.Add<BTNode_Action>("공격 당함", () =>
          {
-             if(_stack._handItem.Count!=0)
+             var hp = _localMemory.GetGeneric<int>(BlackBoardKey.HP);
+             if (_stack._handItem.Count!=0&&hp!=_health.CurrentHp)
              {
                 _currentblock = _stack.BFS(this);
                 _stack.EnemyPutDown();

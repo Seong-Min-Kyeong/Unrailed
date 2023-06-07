@@ -20,6 +20,8 @@ public class BaseAI : MonoBehaviour
     protected BehaviorTree _tree;
     protected PathFindingAgent _agent;
     protected Transform _currentblock;
+    protected float _rotateSpeed = 10;
+
 
     protected WorldResource _target;
 

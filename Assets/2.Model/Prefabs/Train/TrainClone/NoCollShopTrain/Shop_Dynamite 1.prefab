@@ -3391,6 +3391,7 @@ GameObject:
   - component: {fileID: 1337849858148510695}
   - component: {fileID: -5638305214022113819}
   - component: {fileID: -7330521076636325462}
+  - component: {fileID: -6847666265360928915}
   m_Layer: 22
   m_Name: Shop_Dynamite 1
   m_TagString: ShopItem
@@ -3458,6 +3459,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &-6847666265360928915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000900590441707704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c6ed2abea96c4a8d6ae15051610e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 0
+  invisibleType: 1
 --- !u!1 &9128618090630611155
 GameObject:
   m_ObjectHideFlags: 0

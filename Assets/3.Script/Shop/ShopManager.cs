@@ -166,35 +166,16 @@ public class ShopManager : MonoBehaviour
     {
         if(other.CompareTag("Invisible"))
         {
-            // 블럭
-            if(other.gameObject.layer == LayerMask.NameToLayer("Block"))
-            {
-                other.GetComponent<InvisibleBlock>().UnShow();
-            }
-            else if(other.gameObject.layer == LayerMask.NameToLayer("Rail"))
-            {
-                if (!other.GetComponent<RailController>().isInstance)
-                    for (int i = 0; i < other.transform.childCount; i++)
-                        other.transform.GetChild(i).gameObject.SetActive(false);
-            }
-            // 블럭에 부착된 아이템, 지형지물
-            else
-            {
-                other.transform.GetChild(0).gameObject.SetActive(false);
-                // other.gameObject.SetActive(false);
-            }
-        }
-
-        // 새, 도적, 동물 등등
-        if(other.CompareTag("InvisibleObject"))
-        {
-            other.transform.GetChild(0).gameObject.SetActive(false);
+            InVisibleObject invisibleObject = other.GetComponent<InVisibleObject>();
+            if(invisibleObject != null)
+                invisibleObject.UnShow();
         }
 
         if (other.CompareTag("ShopItem"))
         {
-            GameObject obj = other.transform.GetChild(0).gameObject;
-            obj.SetActive(true);
+            InVisibleObject invisibleObject = other.GetComponent<InVisibleObject>();
+            if (invisibleObject != null)
+                invisibleObject.Show();
         }
     }
 
@@ -202,31 +183,16 @@ public class ShopManager : MonoBehaviour
     {
         if (other.CompareTag("Invisible"))
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Block"))
-            {
-                other.GetComponent<InvisibleBlock>().Show();
-            }
-            else if (other.gameObject.layer == LayerMask.NameToLayer("Rail"))
-            {
-                if (!other.GetComponent<RailController>().isInstance)
-                    other.transform.GetChild(0).gameObject.SetActive(true);
-            }
-            else
-            {
-                other.transform.GetChild(0).gameObject.SetActive(true);
-            }
-        }
-
-        // 새, 도적, 동물 등등
-        if (other.CompareTag("InvisibleObject"))
-        {
-            other.transform.GetChild(0).gameObject.SetActive(true);
+            InVisibleObject invisibleObject = other.GetComponent<InVisibleObject>();
+            if (invisibleObject != null)
+                invisibleObject.Show();
         }
 
         if (other.CompareTag("ShopItem"))
         {
-            GameObject obj = other.transform.GetChild(0).gameObject;
-            obj.SetActive(false);
+            InVisibleObject invisibleObject = other.GetComponent<InVisibleObject>();
+            if (invisibleObject != null)
+                invisibleObject.UnShow();
         }
     }
 

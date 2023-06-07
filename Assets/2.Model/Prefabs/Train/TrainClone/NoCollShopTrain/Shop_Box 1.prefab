@@ -581,6 +581,7 @@ GameObject:
   - component: {fileID: -7998708613330467761}
   - component: {fileID: 6138128580228161194}
   - component: {fileID: 7588040259905402450}
+  - component: {fileID: -409634347689676998}
   m_Layer: 22
   m_Name: Shop_Box 1
   m_TagString: ShopItem
@@ -648,6 +649,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &-409634347689676998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071145127775875921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c6ed2abea96c4a8d6ae15051610e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 0
+  invisibleType: 1
 --- !u!1 &2779711129589284112
 GameObject:
   m_ObjectHideFlags: 0

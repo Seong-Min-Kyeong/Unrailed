@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 557475273256986336}
   - component: {fileID: 3849120921233848054}
   - component: {fileID: 6282413370189916765}
+  - component: {fileID: 9197605608306966119}
   m_Layer: 12
   m_Name: Item_Bucket
   m_TagString: Invisible
@@ -226,6 +227,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isHighlight: 0
   _brightAmount: 50
+--- !u!114 &9197605608306966119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332646640871622762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c6ed2abea96c4a8d6ae15051610e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 0
+  invisibleType: 1
 --- !u!1 &3974612447925717989
 GameObject:
   m_ObjectHideFlags: 0

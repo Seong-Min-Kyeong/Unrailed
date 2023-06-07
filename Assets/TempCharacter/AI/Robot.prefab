@@ -1055,7 +1055,10 @@ MonoBehaviour:
   randomRange: 5
   throwLayer:
     serializedVersion: 2
-    m_Bits: 537133073
+    m_Bits: 537165841
+  impassableLayer:
+    serializedVersion: 2
+    m_Bits: 537165840
   finalNodeList: []
 --- !u!114 &455940595194180520
 MonoBehaviour:

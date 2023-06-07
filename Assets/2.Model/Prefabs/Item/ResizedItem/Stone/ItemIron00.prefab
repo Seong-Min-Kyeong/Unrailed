@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7705865897169037331}
   - component: {fileID: 7313641894140187351}
   - component: {fileID: -1753103119603825623}
+  - component: {fileID: -5491675084657493792}
   m_Layer: 18
   m_Name: ItemIron00
   m_TagString: Invisible
@@ -114,6 +115,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isHighlight: 0
   _brightAmount: 50
+--- !u!114 &-5491675084657493792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4019676374655654645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c6ed2abea96c4a8d6ae15051610e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 0
+  invisibleType: 1
 --- !u!1 &4019676374940701884
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,8 @@ public class Helper : MonoBehaviour
 
     public bool arrive = false;
     public bool GotoPlayer = false;
-    Aim _orderUI;
+    private Aim _orderUI;
+    private ItemUI _itemUI;
 
     public Transform UItransform;
     [HideInInspector]
@@ -31,6 +32,7 @@ public class Helper : MonoBehaviour
         TargetResource = DefaultResource;
         Order = new Dictionary<KeyCode, Action>();
         _orderUI = FindObjectOfType<Aim>();
+        _itemUI = FindObjectOfType<ItemUI>();
         Init();
     }
 

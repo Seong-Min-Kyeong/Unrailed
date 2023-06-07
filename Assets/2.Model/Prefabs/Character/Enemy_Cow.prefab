@@ -30343,6 +30343,7 @@ GameObject:
   - component: {fileID: 518540719237068916}
   - component: {fileID: -6694571262228487728}
   - component: {fileID: -3908821108596231308}
+  - component: {fileID: -7731232801228267158}
   m_Layer: 17
   m_Name: Enemy_Cow
   m_TagString: Invisible
@@ -30403,6 +30404,9 @@ MonoBehaviour:
   rotateSpeed: 2
   randomRange: 5
   throwLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  impassableLayer:
     serializedVersion: 2
     m_Bits: 0
   finalNodeList: []
@@ -30516,6 +30520,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isHighlight: 0
   _brightAmount: 50
+--- !u!114 &-7731232801228267158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78867466240623710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c6ed2abea96c4a8d6ae15051610e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEmpty: 0
+  invisibleType: 3
 --- !u!1 &78867466278226058
 GameObject:
   m_ObjectHideFlags: 0

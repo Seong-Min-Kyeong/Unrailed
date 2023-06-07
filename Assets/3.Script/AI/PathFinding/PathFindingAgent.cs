@@ -9,6 +9,7 @@ public class PathFindingAgent : MonoBehaviour
     public float randomRange;
 
     [SerializeField] private LayerMask throwLayer;  // 물, empty
+    [SerializeField] private LayerMask impassableLayer; 
 
     private bool _reachedDestination = false;
     public bool AtDestination => _reachedDestination;
@@ -69,12 +70,32 @@ public class PathFindingAgent : MonoBehaviour
         float detectRadius = 0;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectRadius, throwLayer);
 
-        while (hitColliders.Length == 0)
+        bool isFind = false;
+
+        while (!isFind)
         {
             InfiniteLoopDetector.Run();
 
             detectRadius += 0.1f;
             hitColliders = Physics.OverlapSphere(transform.position, detectRadius, throwLayer);
+
+            for(int i = 0; i < hitColliders.Length; i++)
+            {
+                for(int j = 0; j < dirs.Length; j++)
+                {
+                    Vector3 startPos = hitColliders[i].transform.position - Vector3.up * 0.5f;
+                    if (Physics.Raycast(startPos, dirs[j], out RaycastHit hit, 1f,  1 << LayerMask.NameToLayer("Block")))
+                    {
+                        if(hit.transform.childCount == 0)
+                        {
+                            isFind = true;
+                            Debug.Log("으아아아ㅏ아아아 "+ hitColliders[i].transform.position);
+                            return hitColliders[i].transform.position;
+                        }
+                    }
+                }
+            }
+
         }
 
         return hitColliders[0].transform.position;
@@ -87,7 +108,7 @@ public class PathFindingAgent : MonoBehaviour
         float currentDistance = Mathf.Infinity;
         for (int i = 0; i < dirs.Length; i++)
         {
-            if (!Physics.Raycast(cloestEndPosition, dirs[i], 1f, throwLayer))
+            if (!Physics.Raycast(cloestEndPosition, dirs[i], 1f, impassableLayer))
             {
                 float distance = Vector3.Distance(transform.position, cloestEndPosition + dirs[i]);
                 if (distance < currentDistance)
